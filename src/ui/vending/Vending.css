@@ -1,0 +1,10 @@
+.grid-item{
+    width: 18rem;
+    height: 18rem;
+}
+@media screen and (max-width: 300px) {
+    .grid-item{
+        width: 15rem;
+        height: 15rem;
+    }
+}

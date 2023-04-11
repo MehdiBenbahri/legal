@@ -1,0 +1,6 @@
+.night-sky-gradient{
+    animation-duration: 0.5s;
+    animation-name: bringing-gradient;
+    animation-fill-mode: forwards;
+    box-shadow: none !important;
+}

@@ -1,0 +1,33 @@
+body,html,#root{
+    background-color: var(--bs-dark);
+    color: var(--bs-light);
+    width: 100% !important;
+    background-image: url("/img/ls_variant.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+    overflow-x: hidden !important;
+}
+.overflow-x-hidden{
+    overflow-x: hidden !important;
+}
+
+.object-fit-cover{
+    object-fit: cover;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: rgb(44, 44, 44);
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: rgb(67, 67, 67);
+    border-radius: 2rem;
+    border-color:  rgb(44, 44, 44);
+    border-style: solid;
+    border-width: 2px;
+}
