@@ -29,7 +29,7 @@ function AnnounceDetails({data, handle}) {
     }, [data])
 
     return (
-        <Box sx={{overflowY: "scroll", maxHeight: "80vh"}}>
+        <Box sx={{overflowY: "scroll", height: "80vh"}}>
             <Box className={"d-flex justify-content-between align-content-center"}>
                 <Box className={"d-flex flex-column justify-content-between align-content-center"}>
                     <Typography className={"text-muted fw-bold"} fontSize={".75rem"}>
@@ -130,7 +130,7 @@ function AnnounceDetails({data, handle}) {
                                        className={"p-2 text-muted d-flex justify-content-center align-items-center align-content-center text-center"}
                                        height={225}>
                                 Aucun document d'identité disponible pour cette annonce ! <br/>
-                                Attention au arnaques !
+                                Attention aux arnaques !
                             </Skeleton>)
                     }
 

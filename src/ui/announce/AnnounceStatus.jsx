@@ -3,7 +3,7 @@ import {Box, Tooltip, useTheme} from "@mui/material";
 function AnnounceStatus({data}) {
     const theme = useTheme();
     return (
-        <Tooltip className={"user-select-none"} title={`${data.status === "published" ? 'L\'offre est valable' : ''} 
+        <Tooltip className={"user-select-none shadow-sm"} title={`${data.status === "published" ? 'L\'offre est valable' : ''} 
                                        ${data.status === "waiting" ? 'L\'offre est en cours de négociation' : ''}
                                        ${data.status === "finished" ? 'L\'offre n\'est plus valable car terminée' : ''}
                                        ${data.status === "cancelled" ? 'L\'offre n\'est plus valable car annulée' : ''}`}>

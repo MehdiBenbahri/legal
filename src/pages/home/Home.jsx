@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import {getAnnounce} from "../../services/Announce.js";
 import AnnounceCard from "../../ui/announce/AnnounceCard.jsx";
 import AnnounceDetails from "../../ui/announce/AnnounceDetails.jsx";
+import AnnouncePagination from "../../ui/announce/AnnouncePagination.jsx";
 
 function Home() {
     const theme = useTheme();
@@ -16,13 +17,16 @@ function Home() {
     const [sidePanelData, setSidePanelData] = useState({});
     const [searchValue, setSearchValue] = useState('');
     const [isSearching, setIsSearching] = useState(false);
+    const [pageCount, setPageCount] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         if (!loaded) {
             setDisableChange(true);
-            getAnnounce(selectedCat).then((res) => {
+            getAnnounce(selectedCat,currentPage, (isSearching ? searchValue : '')).then((res) => {
                 if (res.status === 200) {
                     setAnnounces(res.data.data);
+                    setPageCount(Math.ceil(res.data.meta.filter_count / 12))
                 } else {
                     console.log(res)
                 }
@@ -86,8 +90,9 @@ function Home() {
                         <Button variant={"contained"}
                                 disabled={disableChange}
                                 onClick={() => {
-                                    setAnnounces(announces.filter(el => el.title.includes(searchValue)));
+                                    setLoaded(false);
                                     setIsSearching(true);
+                                    setCurrentPage(1);
                                 }}
                                 className={"ms-2"}
                         >
@@ -114,6 +119,10 @@ function Home() {
 
                     </Box>
                 </Box>
+                <AnnouncePagination handleCurrentPageChange={(e) => {
+                    setCurrentPage(e);
+                    setLoaded(false);
+                }} count={pageCount} page={currentPage} />
                 <Box
                     className={"d-flex flex-wrap justify-content-evenly align-content-center align-items-center"}
                 >
@@ -158,6 +167,10 @@ function Home() {
                         })
                     }
                 </Box>
+                <AnnouncePagination handleCurrentPageChange={(e) => {
+                    setCurrentPage(e);
+                    setLoaded(false);
+                }} count={pageCount} page={currentPage} />
             </motion.div>
             <motion.div
                 animate={{width: "", display: sidePanel ? "block" : "none", opacity: sidePanel ? 1 : 0}}
