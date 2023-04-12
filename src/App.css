@@ -2,3 +2,14 @@
     background-color: rgba(248, 249, 250, 0.75);
     backdrop-filter: blur(5px);
 }
+.side-panel{
+    width: 48% !important;
+    right: 1rem;
+}
+
+@media (max-width: 767px) {
+    .side-panel{
+        width: 100% !important;
+        right: 0;
+    }
+}

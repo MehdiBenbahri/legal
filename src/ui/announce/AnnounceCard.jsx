@@ -3,9 +3,10 @@ import Skeleton from "@mui/material/Skeleton";
 import {useEffect, useState} from "react";
 import {getAnnounceImage} from "../../services/Announce.js";
 import {motion} from "framer-motion"
+import AnnounceStatus from "./AnnounceStatus.jsx";
 
 function AnnounceCard({data, index, handleClick}) {
-    const theme = useTheme();
+
     const imageOption = {quality: 50, width: "400", height: "400", withoutEnlargement: true, format: "webp"};
     const [isMainLoaded, setIsMainLoaded] = useState(false);
     const [mainImage, setMainImage] = useState('#');
@@ -65,24 +66,7 @@ function AnnounceCard({data, index, handleClick}) {
                             currency: 'USD'
                         }).format(data.price) : "----"}
                     </Typography>
-                    <Box className={`badge ${data.status === "published" ? 'bg-success' : ''} 
-                                            ${data.status === "waiting" ? 'bg-warning' : ''}
-                                            ${data.status === "finished" ? 'bg-primary' : ''}
-                                            ${data.status === "cancelled" ? 'bg-danger' : ''}
-                                             text-uppercase`} sx={{color: theme.palette.dark.opacity75}}>
-                        {
-                            data.status === "published" ? 'publiée' : ''
-                        }
-                        {
-                            data.status === "waiting" ? 'en attente' : ''
-                        }
-                        {
-                            data.status === "finished" ? 'expirée' : ''
-                        }
-                        {
-                            data.status === "cancelled" ? 'annulée' : ''
-                        }
-                    </Box>
+                    <AnnounceStatus data={data} />
                 </Box>
             </Box>
         </Box>
