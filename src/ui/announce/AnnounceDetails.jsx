@@ -50,9 +50,10 @@ function AnnounceDetails({data, handle}) {
                     </Typography>
                 </Box>
                 <Box className={"d-flex flex-column justify-content-start align-content-center"}>
-                    <Button color={"secondary"}
+                    <Button color={"danger"}
+                            variant={"contained"}
                             onClick={() => handle()}
-                            className={"rounded-pill"}>
+                            className={"rounded-pill my-2"}>
                         Fermer <i className="fa-solid fa-xmark mx-2"></i>
                     </Button>
                     <AnnounceStatus data={data}/>
@@ -139,48 +140,51 @@ function AnnounceDetails({data, handle}) {
             <Typography className={"text-dark fw-bold text-uppercase "} fontSize={"1.5rem"}>
                 Contact
             </Typography>
-            <Box className={"d-flex flex-wrap justify-content-evenly align-content-center user-select-none mt-2"}>
-                <Box className={"border p-3 rounded bg-success"} sx={{color: theme.palette.dark.opacity75}}>
-                    <Typography className={"fw-bolder text-uppercase"}>
-                        Pour plus d'informations envoyez un SMS
-                    </Typography>
-                    <Box className={"text-center fw-bolder font-monospace user-select-all"} fontSize={"2.5rem"}>
+            {
+                data.status === 'finished' || data.status === 'waiting' || data.status === 'cancelled' ?
+                    ('L\'offre n\'est malheuresement plus disponible, toutefois en cas de problème nos opérateurs sont à l\'écoute.') :
+                    (<Box className={"d-flex flex-wrap justify-content-evenly align-content-center user-select-none mt-2"}>
+                        <Box className={"border p-3 rounded bg-success"} sx={{color: theme.palette.dark.opacity75}}>
+                            <Typography className={"fw-bolder text-uppercase"}>
+                                Pour plus d'informations envoyez un SMS
+                            </Typography>
+                            <Box className={"text-center fw-bolder font-monospace user-select-all"} fontSize={"2.5rem"}>
+                                {
+                                    data.author_phone
+                                }
+                            </Box>
+                        </Box>
                         {
-                            data.author_phone
+                            data.author_discord ?
+                                (
+                                    <Box className={"border p-3 rounded bg-info"}>
+                                        <Typography className={"text-light fw-bolder text-uppercase"}>
+                                            Vous pouvez aussi contactez via Discord
+                                        </Typography>
+                                        <Box
+                                            className={"text-info text-center fw-bolder font-monospace user-select-all text-light"}
+                                            fontSize={"2.5rem"}>
+                                            {
+                                                data.author_discord
+                                            }
+                                        </Box>
+                                    </Box>
+                                ) :
+                                (
+                                    <Box className={"border p-3 rounded bg-light opacity-50"}>
+                                        <Typography className={"text-dark fw-bolder text-uppercase"}>
+                                            Pas de discord disponible
+                                        </Typography>
+                                        <Box className={"text-info text-center fw-bolder font-monospace text-light"}
+                                             fontSize={"2.5rem"}>
+                                            😔
+                                        </Box>
+                                    </Box>
+                                )
                         }
-                    </Box>
-                </Box>
-                {
-                    data.author_discord ?
-                        (
-                            <Box className={"border p-3 rounded bg-info"}>
-                                <Typography className={"text-light fw-bolder text-uppercase"}>
-                                    Vous pouvez aussi contactez via Discord
-                                </Typography>
-                                <Box
-                                    className={"text-info text-center fw-bolder font-monospace user-select-all text-light"}
-                                    fontSize={"2.5rem"}>
-                                    {
-                                        data.author_discord
-                                    }
-                                </Box>
-                            </Box>
-                        ) :
-                        (
-                            <Box className={"border p-3 rounded bg-light opacity-50"}>
-                                <Typography className={"text-dark fw-bolder text-uppercase"}>
-                                    Pas de discord disponible
-                                </Typography>
-                                <Box className={"text-info text-center fw-bolder font-monospace text-light"}
-                                     fontSize={"2.5rem"}>
-                                    😔
-                                </Box>
-                            </Box>
-                        )
-                }
 
-            </Box>
-
+                    </Box>)
+            }
         </Box>
     )
 }

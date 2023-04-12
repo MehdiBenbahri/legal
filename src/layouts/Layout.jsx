@@ -5,7 +5,7 @@ function Layout({children}) {
     return (
         <Box className={"row flex-column justify-content-start align-items-center align-content-between overflow-x-hidden"}>
             <Navbar></Navbar>
-            <Box sx={{marginTop: "5rem"}}>
+            <Box>
                 {children}
             </Box>
         </Box>
