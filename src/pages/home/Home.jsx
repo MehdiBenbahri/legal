@@ -4,6 +4,7 @@ import {motion} from "framer-motion"
 import {useEffect, useState} from "react";
 import {getAnnounce} from "../../services/Announce.js";
 import AnnounceCard from "../../ui/announce/AnnounceCard.jsx";
+import AnnounceDetails from "../../ui/announce/AnnounceDetails.jsx";
 
 function Home() {
 
@@ -12,6 +13,7 @@ function Home() {
     const [selectedCat, setSelectedCat] = useState(import.meta.env.VITE_DEFAULT_TYPE_ANNOUNCE);
     const [disableChange, setDisableChange] = useState(false);
     const [sidePanel, setSidePanel] = useState(false);
+    const [sidePanelData, setSidePanelData] = useState({});
 
     useEffect(() => {
         if (!loaded) {
@@ -77,8 +79,13 @@ function Home() {
                             return (
                                 <Box key={"announce-card-" + el.id} className={"m-4"}>
                                     <AnnounceCard data={el} index={index} handleClick={(data) => {
-                                        console.log(data)
-                                        setSidePanel(!sidePanel)
+                                        if (!sidePanel){
+                                            setSidePanel(!sidePanel);
+                                            setSidePanelData(data);
+                                        }
+                                        else{
+                                            setSidePanelData(data);
+                                        }
                                     }}/>
                                 </Box>
                             )
@@ -92,7 +99,9 @@ function Home() {
                 exit={{opacity: 0}}
                 className={`${sidePanel ? 'col-sm-12 col-md-6 col-lg-6' : 'col-12'} bg-light-blur rounded py-3`}
             >
-                aaa
+                {
+                    sidePanelData.id ? <AnnounceDetails data={sidePanelData} /> : ('')
+                }
             </motion.div>
         </motion.div>
     )
