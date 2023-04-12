@@ -1,8 +1,7 @@
 body,html,#root{
-    background-color: var(--bs-dark);
-    color: var(--bs-light);
+    color: var(--bs-dark);
     width: 100% !important;
-    background-image: url("/img/ls_variant.png");
+    background-image: url("/img/ls_variant_blur.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -21,13 +20,13 @@ body,html,#root{
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
-    background-color: rgb(44, 44, 44);
+    background-color: var(--bs-light);
 }
 
 ::-webkit-scrollbar-thumb{
-    background-color: rgb(67, 67, 67);
+    background-color: #bcbcbc;
     border-radius: 2rem;
-    border-color:  rgb(44, 44, 44);
+    border-color:  var(--bs-light);
     border-style: solid;
     border-width: 2px;
 }

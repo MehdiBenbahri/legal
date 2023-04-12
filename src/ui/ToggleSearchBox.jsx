@@ -8,7 +8,7 @@ function ToggleSearchBox({className}) {
     const [openSearch, setOpenSearch] = useState(false);
 
     return (
-        <Box className={className} sx={{backgroundColor: theme.palette.dark.opacity50, backdropFilter: 'blur(5px)'}}>
+        <Box className={className} sx={{backgroundColor: theme.palette.light.opacity75, backdropFilter: 'blur(5px)'}}>
             <Box>
                 <Button className={"text-muted p-3"}
                         onClick={() => {
@@ -20,11 +20,13 @@ function ToggleSearchBox({className}) {
                 </Button>
             </Box>
             <TextField className={"w-100 pe-3"}
+                       size={"small"}
                        placeholder={"Ex: Blanchiment d'argent, mercenariat, corruption"}
                        inputProps={
                            {
-                               sx: {color: theme.palette.light.main},
-                           }}
+                               sx: {color: theme.palette.dark.main},
+                           }
+                       }
                        sx={{
                            backgroundColor: 'transparent'
                        }}

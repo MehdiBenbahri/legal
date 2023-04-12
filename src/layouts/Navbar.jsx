@@ -5,13 +5,12 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import {useState} from "react";
 import ToggleSearchBox from "../ui/ToggleSearchBox.jsx";
 import {motion} from "framer-motion";
-import Join from "../pages/join/Join.jsx";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import Skeleton from "@mui/material/Skeleton";
 
 function Navbar() {
     const theme = useTheme();
-    const [openAuth, setOpenAuth] = useState(false);
 
     const variants = {
         "closed": {scaleX: 0, x: 5000, opacity: 0},
@@ -20,14 +19,6 @@ function Navbar() {
 
     return (
         <Box className={"row align-content-center align-items-center w-100 my-2"} sx={{zIndex: 100}}>
-            <motion.div
-                animate={openAuth ? "open" : "closed"}
-                variants={variants}
-                transition={{duration: .5}}
-                className={"position-absolute top-0 right-0 p-0"}
-                style={{backgroundColor: "black", width: "100vw", height: "100vh", zIndex: -1, overflowX: "hidden"}}>
-                <Join show={openAuth}/>
-            </motion.div>
             <Box className={"d-flex justify-content-between align-content-center align-items-center"}>
                 <Box className={"d-flex justify-content-start align-content-center align-items-center"}>
                     <Grow in={true}>
@@ -37,7 +28,7 @@ function Navbar() {
                             href={"/"}
                             sx={
                                 {
-                                    backgroundColor: theme.palette.dark.opacity50,
+                                    backgroundColor: theme.palette.light.opacity75,
                                     backdropFilter: 'blur(5px)'
                                 }
                             }
@@ -55,7 +46,7 @@ function Navbar() {
                             href={"/"}
                             sx={
                                 {
-                                    backgroundColor: theme.palette.dark.opacity50,
+                                    backgroundColor: theme.palette.light.opacity75,
                                     backdropFilter: 'blur(5px)'
                                 }
                             }
@@ -75,23 +66,7 @@ function Navbar() {
                 </Grow>
                 <Grow in={true}>
                     <Box className={"d-flex justify-content-center align-content-center align-items-center"}>
-                        <IconButton
-                            className={"p-3"}
-                            onClick={() => setOpenAuth(!openAuth)}
-                            sx={
-                                {
-                                    backgroundColor: !openAuth ? theme.palette.dark.opacity50 : theme.palette.primary.main,
-                                    color: openAuth ? theme.palette.dark.main : theme.palette.primary.main,
-                                    backdropFilter: 'blur(5px)'
-                                }
-                            }
-                        >
-                            {openAuth ? (
-                                <LogoutRoundedIcon/>
-                            ) : (
-                                <LoginRoundedIcon/>
-                            )}
-                        </IconButton>
+                        <Skeleton variant={"circular"} width={60} height={60}></Skeleton>
                     </Box>
                 </Grow>
             </Box>

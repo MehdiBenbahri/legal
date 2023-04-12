@@ -10,10 +10,10 @@ import './customize.scss';
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#f8bc4c',
-            opacity50 : 'rgba(248,188,76,0.5)',
-            opacity25 : 'rgba(248,188,76,0.25)',
-            opacity75 : 'rgba(248,188,76,0.75)',
+            main: '#4cd8f8',
+            opacity50 : 'rgba(76,216,248,0.5)',
+            opacity25 : 'rgba(76,216,248,0.25)',
+            opacity75 : 'rgba(76,216,248,0.75)',
         },
         danger: {
             main: '#f2523f',
@@ -28,7 +28,7 @@ const theme = createTheme({
             opacity75 : 'rgba(234,110,34,0.75)',
         },
         info: {
-            main: '#5fd6d1'
+            main: '#5f81d6'
         },
         success: {
             main: '#99db6b'
