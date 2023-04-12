@@ -50,7 +50,7 @@ function Home() {
                 animate={{width: sidePanel ? "50%" : "100%"}}
                 transition={{duration: 0.15}}
                 className={`${sidePanel ? 'col-sm-12 col-md-6 col-lg-6 d-none d-md-block' : 'col-12'} bg-light-blur rounded p-3`}>
-                <Box className={"d-flex flex-wrap justify-content-between align-content-center"}>
+                <Box className={"d-flex flex-wrap justify-content-between align-content-center mb-3"}>
                     <Tabs variant={"scrollable"}
                           value={selectedCat}
                           onChange={(e, val) => {
@@ -119,10 +119,16 @@ function Home() {
 
                     </Box>
                 </Box>
-                <AnnouncePagination handleCurrentPageChange={(e) => {
-                    setCurrentPage(e);
-                    setLoaded(false);
-                }} count={pageCount} page={currentPage} />
+                {
+                    announces.length > 0 ?
+                        (
+                            <AnnouncePagination handleCurrentPageChange={(e) => {
+                                setCurrentPage(e);
+                                setLoaded(false);
+                            }} count={pageCount} page={currentPage} />
+                        ) :
+                        ('')
+                }
                 <Box
                     className={"d-flex flex-wrap justify-content-evenly align-content-center align-items-center"}
                 >
@@ -167,10 +173,25 @@ function Home() {
                         })
                     }
                 </Box>
-                <AnnouncePagination handleCurrentPageChange={(e) => {
-                    setCurrentPage(e);
-                    setLoaded(false);
-                }} count={pageCount} page={currentPage} />
+                {
+                    announces.length > 0 ?
+                        (
+                            <AnnouncePagination handleCurrentPageChange={(e) => {
+                                setCurrentPage(e);
+                                setLoaded(false);
+                            }} count={pageCount} page={currentPage} />
+                        ) :
+                        ('')
+                }
+                {
+                    announces.length === 0 && loaded ?
+                        (
+                            <Typography className={"text-muted text-center w-100 my-3"}>
+                                Aucun résultat ne correspond à vos filtres 😥
+                            </Typography>
+                        ) :
+                        ('')
+                }
             </motion.div>
             <motion.div
                 animate={{width: "", display: sidePanel ? "block" : "none", opacity: sidePanel ? 1 : 0}}
