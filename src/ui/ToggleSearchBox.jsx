@@ -1,7 +1,6 @@
-import {Box, Button, TextField, Typography, useTheme} from "@mui/material";
+import {Box, Button, TextField, useTheme} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import {useState} from "react";
-import {motion} from "framer-motion";
 
 function ToggleSearchBox({className}) {
     const theme = useTheme();

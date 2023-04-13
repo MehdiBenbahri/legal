@@ -1,4 +1,4 @@
-import {Box, Typography, useTheme} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 import {useEffect, useState} from "react";
 import {getAnnounceImage} from "../../services/Announce.js";

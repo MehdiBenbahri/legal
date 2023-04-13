@@ -1,9 +1,8 @@
-import {Box, Button, Grow, IconButton} from "@mui/material";
+import {Box} from "@mui/material";
 import {useEffect, useState} from "react";
 import {getVending} from "../../services/VendingService.js";
 import VendingItem from "./VendingItem.jsx";
 import './Vending.css'
-import CloseIcon from '@mui/icons-material/Close';
 function VendingListSquare() {
 
     const [vending, setVending] = useState([]);
