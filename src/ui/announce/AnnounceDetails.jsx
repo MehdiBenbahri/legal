@@ -56,16 +56,33 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                             `Le : ${data.date_updated ? moment(data.date_updated).format('DD/MM/YYYY HH:mm') : moment(data.date_created).format('DD/MM/YYYY HH:mm')}`
                         }
                     </Typography>
-                    <Typography className={"text-dark fw-bold text-uppercase "} fontSize={"1.5rem"}>
-                        {
-                            data.title
-                        }
-                    </Typography>
-                    <Typography className={"text-muted"} fontSize={"1rem"}>
-                        {
-                            data.summary
-                        }
-                    </Typography>
+                    <Box className={"d-flex justify-content-between align-items-center align-content-center"}>
+                        <Box className={"w-75"}>
+                            <Typography className={"text-dark fw-bold text-uppercase "} fontSize={"1.5rem"}>
+                                {
+                                    data.title
+                                }
+                            </Typography>
+                            <Typography className={"text-muted"} fontSize={"1rem"}>
+                                {
+                                    data.summary
+                                }
+                            </Typography>
+                        </Box>
+                        <Box className={"d-flex flex-column justify-content-between align-content-end align-items-end "}>
+                            <Typography className={"text-muted"} fontSize={"0.75rem"}>
+                                Prix TTC
+                            </Typography>
+                            <Typography className={"text-dark fw-bold text-uppercase "} fontSize={"1.5rem"}>
+                                {
+                                    data.price ? new Intl.NumberFormat('en-US', {
+                                            style: 'currency',
+                                            currency: 'USD'
+                                        }).format(data.price) : "----"
+                                }
+                            </Typography>
+                        </Box>
+                    </Box>
                 </Box>
             </Box>
             <Box className={"d-flex flex-wrap justify-content-start align-content-center my-3"}>
