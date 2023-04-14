@@ -31,7 +31,10 @@ const theme = createTheme({
             main: '#5f81d6'
         },
         success: {
-            main: '#99db6b'
+            main: '#79c74c',
+            opacity50 : 'rgba(121,199,76,0.5)',
+            opacity25 : 'rgba(121,199,76,.25)',
+            opacity75 : 'rgba(121,199,76,0.75)',
         },
         secondary: {
             main: '#4e4e4e'

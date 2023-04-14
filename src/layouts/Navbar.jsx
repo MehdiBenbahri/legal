@@ -83,7 +83,7 @@ function Navbar() {
                             <IconButton
                                 className={"m-2 rounded-pill text-muted d-flex justify-content-center align-content-center"}
                                 size={"large"}
-                                href={"/"}
+                                href={"/recruitment"}
                                 sx={
                                     {
                                         backgroundColor: theme.palette.light.opacity75,
@@ -93,7 +93,7 @@ function Navbar() {
                             >
                                 <TravelExploreIcon />
                                 <Typography className={"mx-2"}>
-                                    Recherche emploi
+                                    Offre d'emploi
                                 </Typography>
                             </IconButton>
                         </Box>
@@ -127,12 +127,15 @@ function Navbar() {
                                 onClick={() => {
                                     setOpenAdvise(!openAdvise);
                                 }}
-                                className={"fw-bold rounded-pill text-center"}
+                                className={"fw-bold rounded-pill py-2"}
                                 sx={{color: theme.palette.dark.opacity75}}>
-                            <Typography fontSize={"0.75rem"} className={"d-none d-md-inline"}>
-                                Ajouter une annonce
-                            </Typography>
-                            <i className="fa-solid fa-star ms-2"></i>
+                            <Box className={"text-center"}>
+                                <Typography fontSize={"0.75rem"} className={"d-none d-md-inline"}>
+                                    Ajouter une annonce
+                                </Typography>
+                                <i className="fa-solid fa-star ms-2"></i>
+                            </Box>
+
                         </Button>
                     </Box>
                 </Grow>
