@@ -15,29 +15,34 @@ function ImageModal({open, data, handle}) {
                 </button>
                 <Box
                     className={"d-flex flex-column justify-content-center align-content-center align-items-center text-center"}>
-                    <motion.img
-                        initial={{opacity: 0}}
-                        animate={{opacity: 1}}
-                        exit={{opacity: 0}}
-                        transition={{duration: 0.25}}
-                        draggable={false}
-                        style={{maxWidth: "50%"}}
-                        src={import.meta.env.VITE_API_BASE + '/assets/' + data.image + "?" + (new URLSearchParams(imageOption))}
-                        className={"object-fit-cover user-select-none rounded"}
-                        alt={data.title + " image #" + data.id}/>
+                    {
+                        data.announce_image_id ?
+                            (
+                                <motion.img
+                                    initial={{opacity: 0}}
+                                    animate={{opacity: 1}}
+                                    exit={{opacity: 0}}
+                                    transition={{duration: 0.25}}
+                                    draggable={false}
+                                    style={{maxWidth: "50%"}}
+                                    src={import.meta.env.VITE_API_BASE + '/assets/' + data.announce_image_id.image + "?" + (new URLSearchParams(imageOption))}
+                                    className={"object-fit-cover user-select-none rounded"}
+                                    alt={data.title + " image #" + data.id}/>
+                            ) : ('')
+                    }
                     <Box
                     >
                         <Typography className={"text-dark fw-bold"}
                                     fontSize={"1.5rem"}
                         >
                             {
-                                data.title
+                                data.announce_image_id.title
                             }
                         </Typography>
                         <Typography className={"text-dark"}
                         >
                             {
-                                data.description
+                                data.announce_image_id.description
                             }
                         </Typography>
                     </Box>

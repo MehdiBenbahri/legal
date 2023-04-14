@@ -18,6 +18,7 @@ import {useEffect, useState} from "react";
 import {getOperator} from "../services/OperatorService.js";
 import Paper from '@mui/material/Paper';
 import moment from "moment";
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
 function Navbar() {
     const theme = useTheme();
@@ -62,22 +63,40 @@ function Navbar() {
             <Box className={"d-flex flex-wrap justify-content-between align-content-center align-items-center"}>
                 <Box className={"d-flex justify-content-start align-content-center align-items-center"}>
                     <Grow in={true}>
-                        <IconButton
-                            className={"m-2 rounded-pill text-muted d-flex justify-content-center align-content-center"}
-                            size={"large"}
-                            href={"/"}
-                            sx={
-                                {
-                                    backgroundColor: theme.palette.light.opacity75,
-                                    backdropFilter: 'blur(5px)'
+                        <Box className={"d-flex justify-content-between align-items-center"}>
+                            <IconButton
+                                className={"m-2 rounded-pill text-muted d-flex justify-content-center align-content-center"}
+                                size={"large"}
+                                href={"/"}
+                                sx={
+                                    {
+                                        backgroundColor: theme.palette.light.opacity75,
+                                        backdropFilter: 'blur(5px)'
+                                    }
                                 }
-                            }
-                        >
-                            <HomeRoundedIcon/>
-                            <Typography className={"mx-2"}>
-                                Accueil
-                            </Typography>
-                        </IconButton>
+                            >
+                                <HomeRoundedIcon/>
+                                <Typography className={"mx-2"}>
+                                    Accueil
+                                </Typography>
+                            </IconButton>
+                            <IconButton
+                                className={"m-2 rounded-pill text-muted d-flex justify-content-center align-content-center"}
+                                size={"large"}
+                                href={"/"}
+                                sx={
+                                    {
+                                        backgroundColor: theme.palette.light.opacity75,
+                                        backdropFilter: 'blur(5px)'
+                                    }
+                                }
+                            >
+                                <TravelExploreIcon />
+                                <Typography className={"mx-2"}>
+                                    Recherche emploi
+                                </Typography>
+                            </IconButton>
+                        </Box>
                     </Grow>
                     <Grow in={false}>
                         <IconButton
@@ -135,14 +154,16 @@ function Navbar() {
                     </button>
                     <img src={"/img/rule.webp"} width={"400rem"} alt={"homme bureau fond soleil"}/>
                     <Box className={"px-3"}>
-                        <TableContainer className={"text-uppercase"} sx={{backgroundColor: "#050505"}} component={Paper}>
+                        <TableContainer className={"text-uppercase"} sx={{backgroundColor: "#050505"}}
+                                        component={Paper}>
                             <Table>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell className={"text-light fw-bold"}>Opérateur</TableCell>
                                         <TableCell className={"text-light fw-bold"}>Téléphone</TableCell>
                                         <TableCell className={"text-light fw-bold text-center"}>État</TableCell>
-                                        <TableCell className={"text-light fw-bold d-flex justify-content-center align-content-center"}>
+                                        <TableCell
+                                            className={"text-light fw-bold d-flex justify-content-center align-content-center"}>
                                             <IconButton size={"small"}
                                                         className={`p-3 ${disableReload ? 'text-muted' : 'text-light'}`}
                                                         onClick={() => !disableReload ? reloadState() : ''}
@@ -166,7 +187,7 @@ function Navbar() {
                                             <TableCell component="th" scope="row" className={"text-muted"}>
                                                 {row.nickname}
                                             </TableCell>
-                                            <TableCell component="th" scope="row" >
+                                            <TableCell component="th" scope="row">
                                                 <Typography className={"text-muted"} fontSize={"0.75rem"}>
                                                     {row.phone}
                                                 </Typography>
@@ -195,7 +216,8 @@ function Navbar() {
                                                 }
                                             </TableCell>
                                             <TableCell>
-                                                <Typography fontSize={"0.75rem"} className={"text-center"} color={theme.palette.light.opacity50}>
+                                                <Typography fontSize={"0.75rem"} className={"text-center"}
+                                                            color={theme.palette.light.opacity50}>
                                                     {
                                                         `Depuis \n ${moment().format('HH:mm')}`
                                                     }
@@ -207,9 +229,15 @@ function Navbar() {
                             </Table>
                         </TableContainer>
                     </Box>
-                    <Typography variant={"overline"} className={"text-white-50 text-center my-3"}>
-                        Pour pouvoir mettre une annonce sur le site, contactez un de nos opérateurs.
-                        (prix d'un appel/sms local)
+                    <Typography variant={"overline"}
+                                className={"text-primary fw-bold text-center my-3 col-sm-12 col-md-8 col-lg-4"}>
+                        Pour pouvoir mettre une annonce sur le site en tant que particulier, contactez un de nos
+                        opérateurs.
+                    </Typography>
+                    <Typography variant={"overline"}
+                                className={"text-success fw-bold text-center my-3 col-sm-12 col-md-8 col-lg-4"}>
+                        Les entreprises officielles peuvent bénéficier d'un accès administrateur pour gérer leur propre
+                        annonce.
                     </Typography>
                 </motion.div>
             </Modal>

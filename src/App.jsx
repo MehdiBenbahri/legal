@@ -12,7 +12,7 @@ function App() {
         <AnimatePresence>
             <Routes location={location} key={location.pathname}>
                 <Route exact path="/" element={<Layout><Home/></Layout>}/>
-                <Route exact path="/rules" element={<Layout><Rules/></Layout>}/>
+                <Route exact path="/recruitment" element={<Layout><Rules/></Layout>}/>
                 <Route exact path="/announce" element={<Layout><ViewAnnounce/></Layout>}/>
             </Routes>
         </AnimatePresence>

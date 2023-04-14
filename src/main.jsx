@@ -22,10 +22,10 @@ const theme = createTheme({
             opacity75 : 'rgba(242,82,63,0.75)',
         },
         warning: {
-            main: '#ea6e22',
-            opacity50 : 'rgba(234,110,34,0.5)',
-            opacity25 : 'rgba(234,110,34,0.25)',
-            opacity75 : 'rgba(234,110,34,0.75)',
+            main: '#eaa422',
+            opacity50 : 'rgba(234,164,34,0.5)',
+            opacity25 : 'rgba(234,164,34,0.25)',
+            opacity75 : 'rgba(234,164,34,0.75)',
         },
         info: {
             main: '#5f81d6'

@@ -58,8 +58,15 @@ function Home() {
                               setLoaded(false);
                               setSidePanel(false);
                           }}
+                          TabIndicatorProps={{style:{backgroundColor: selectedCat === "all" ? theme.palette.warning.main : theme.palette.primary.main}}}
                           scrollButtons={"auto"}
                           allowScrollButtonsMobile={true}>
+                        <Tab disabled={disableChange} value={"all"} color={"primary"} label={
+                            <Typography className={"text-warning fw-bold"}>
+                                Nouveautés
+                                <i className="fa-solid fa-star mx-2 text-warning"></i>
+                            </Typography>
+                        }/>
                         <Tab disabled={disableChange} value={"vehicle"} label={
                             <Typography>
                                 Vehicule
@@ -70,6 +77,24 @@ function Home() {
                             <Typography>
                                 Immobilier
                                 <i className="fa-solid fa-building mx-2"></i>
+                            </Typography>
+                        }/>
+                        <Tab disabled={disableChange} value={"clothing"} label={
+                            <Typography>
+                                Vêtements
+                                <i className="fa-solid fa-shirt mx-2"></i>
+                            </Typography>
+                        }/>
+                        <Tab disabled={disableChange} value={"weapons"} label={
+                            <Typography>
+                                Armes (PPA)
+                                <i className="fa-solid fa-gun mx-2"></i>
+                            </Typography>
+                        }/>
+                        <Tab disabled={disableChange} value={"tombola"} label={
+                            <Typography>
+                                Tombola
+                                <i className="fa-solid fa-money-bill mx-2"></i>
                             </Typography>
                         }/>
                         <Tab disabled={disableChange} value={"other"} label={

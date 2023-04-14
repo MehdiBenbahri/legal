@@ -1,7 +1,7 @@
 import {Box, Button, Collapse, ImageList, ImageListItem, TextField, Typography, useTheme} from "@mui/material";
 import moment from "moment";
 import {useEffect, useState} from "react";
-import {getAnnounceImage} from "../../services/Announce.js";
+import {getAnnounceAllImage, getAnnounceImage} from "../../services/Announce.js";
 import {motion} from "framer-motion";
 import ImageModal from "../image/ImageModal.jsx";
 import AnnounceStatus from "./AnnounceStatus.jsx";
@@ -14,29 +14,38 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
     const [selectedImg, setSelectedImg] = useState([]);
     const [openImgModal, setOpenImgModal] = useState(false);
     const [openDescription, setOpenDescription] = useState(false);
+    const [imgLoading, setImgLoading] = useState(false);
 
     useEffect(() => {
-        if (data.id && data.images_list.length > images.length) {
-            data.images_list.map((el, index) => {
-                getAnnounceImage(el.announce_image_id).then((res) => {
-                    if (res.status === 200) {
-                        setImages((images) => [...images, res.data.data[0]]);
-                    }
-                })
-            })
+        let shouldReset = false;
+        images.map(el => {
+            if (!shouldReset){
+                shouldReset = el.announce_id !== data.id
+            }
+        })
+        if (shouldReset) {
+            setImages([]);
         }
-    }, [data, images])
+        if ((images.length === 0 && data.id) || shouldReset) {
+            getAnnounceAllImage(data.id).then((res) => {
+                if (res.status === 200) {
+                    setImages(res.data.data);
+                }
+                shouldReset = false;
+            });
+        }
+    }, [data]);
 
     return (
         <Box className={className} sx={{overflowY: fullPage ? 'auto' : "scroll", height: fullPage ? 'auto' : "80vh"}}>
             <Box className={"d-flex flex-wrap justify-content-between align-content-center position-relative"}>
-                <Box className={"d-flex flex-column justify-content-between align-content-center"}>
+                <Box className={"d-flex flex-column justify-content-between align-content-center w-100"}>
                     <Box className={"d-flex justify-content-start align-items-center"}>
-                        <Button color={"danger"}
+                        <Button color={"warning"}
                                 size={"small"}
                                 variant={"contained"}
                                 onClick={() => handle()}
-                                className={"rounded-pill text-light fw-bold me-2"}>
+                                className={"rounded-pill text-dark fw-bold me-2"}>
                             Fermer <i className="fa-solid fa-xmark mx-2"></i>
                         </Button>
                         <Button color={"info"}
@@ -57,7 +66,7 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                         }
                     </Typography>
                     <Box className={"d-flex justify-content-between align-items-center align-content-center"}>
-                        <Box className={"w-75"}>
+                        <Box>
                             <Typography className={"text-dark fw-bold text-uppercase "} fontSize={"1.5rem"}>
                                 {
                                     data.title
@@ -69,17 +78,18 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                                 }
                             </Typography>
                         </Box>
-                        <Box className={"d-flex flex-column justify-content-between align-content-end align-items-end "}>
-                            <Typography className={"text-muted"} fontSize={"0.75rem"}>
-                                Prix TTC
-                            </Typography>
+                        <Box
+                            className={"d-flex flex-column justify-content-between align-content-end align-items-end "}>
                             <Typography className={"text-dark fw-bold text-uppercase "} fontSize={"1.5rem"}>
                                 {
                                     data.price ? new Intl.NumberFormat('en-US', {
-                                            style: 'currency',
-                                            currency: 'USD'
-                                        }).format(data.price) : "----"
+                                        style: 'currency',
+                                        currency: 'USD'
+                                    }).format(data.price) : "----"
                                 }
+                            </Typography>
+                            <Typography className={"text-muted"} fontSize={"1rem"}>
+                                {data.price_comment}
                             </Typography>
                         </Box>
                     </Box>
@@ -89,33 +99,31 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                 <ImageList cols={Math.round(images.length)}>
                     {
                         images.map((el, index) => {
-                            if (index < data.images_list.length) {
-                                return (
-                                    <ImageListItem variant="woven" onClick={() => {
-                                        setSelectedImg(el)
-                                        setOpenImgModal(true)
-                                    }}
-                                                   key={"image-" + el + "-" + data.id + "-" + index}>
-                                        <motion.img
-                                            initial={{opacity: 0}}
-                                            animate={{opacity: 1}}
-                                            exit={{opacity: 0}}
-                                            height={"100%"}
-                                            transition={{duration: 0.25 + (index / 10), delay: 0.25 + (index / 10)}}
-                                            draggable={false}
-                                            src={import.meta.env.VITE_API_BASE + '/assets/' + el.image + "?" + (new URLSearchParams(imageOption))}
-                                            className={"object-fit-cover user-select-none"}
-                                            width={"100%"}
-                                            alt={data.title + " image #" + data.id}/>
-                                    </ImageListItem>
-                                )
-                            } else {
-                                return ('');
-                            }
+                            return (
+                                <ImageListItem variant="woven" onClick={() => {
+                                    setSelectedImg(el)
+                                    setOpenImgModal(true)
+                                }}
+                                               key={"image-" + el + "-" + data.id + "-" + index}>
+                                    <motion.img
+                                        initial={{opacity: 0}}
+                                        animate={{opacity: 1}}
+                                        exit={{opacity: 0}}
+                                        height={"100%"}
+                                        transition={{duration: 0.25 + (index / 10), delay: 0.25 + (index / 10)}}
+                                        draggable={false}
+                                        src={import.meta.env.VITE_API_BASE + '/assets/' + el.announce_image_id.image + "?" + (new URLSearchParams(imageOption))}
+                                        className={"object-fit-cover user-select-none"}
+                                        width={"100%"}
+                                        alt={data.title + " image #" + data.id}/>
+                                </ImageListItem>
+                            )
                         })
                     }
                 </ImageList>
-                <ImageModal open={openImgModal} data={selectedImg} handle={() => setOpenImgModal(false)}></ImageModal>
+                {
+                    selectedImg.announce_image_id ? (<ImageModal open={openImgModal} data={selectedImg} handle={() => setOpenImgModal(false)}></ImageModal>) : ('')
+                }
             </Box>
             <Collapse collapsedSize={150}
                       in={openDescription}
@@ -135,13 +143,22 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                 Information propriétaire
             </Typography>
             <Box className={"d-flex justify-content-between align-items-center align-content-center"}>
-                <Box
-                    className={"d-flex flex-column justify-content-evenly align-items-center align-content-center w-50"}>
-                    <TextField disabled label={"Prénom"} className={"bg-light-blur my-1"}
-                               value={data.author_firstname}/>
-                    <TextField disabled label={"Nom"} className={"bg-light-blur my-1"} value={data.author_lastname}/>
-                </Box>
-                <Box className={"w-50"}>
+                {
+                    data.is_company ?
+                        (
+                            ''
+                        ) :
+                        (
+                            <Box
+                                className={"d-flex flex-column justify-content-evenly align-items-center align-content-center w-50"}>
+                                <TextField disabled label={"Prénom"} className={"bg-light-blur my-1"}
+                                           value={data.author_firstname}/>
+                                <TextField disabled label={"Nom"} className={"bg-light-blur my-1"}
+                                           value={data.author_lastname}/>
+                            </Box>
+                        )
+                }
+                <Box className={!data.is_company ? "w-50" : 'w-100'}>
                     {
                         data.author_identity_card ?
                             (
@@ -168,11 +185,13 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                 </Box>
             </Box>
             <Typography className={"text-dark fw-bold text-uppercase "} fontSize={"1.5rem"}>
-                Contact
+                {!data.is_company ? 'Contact' : 'Information complémentaire'}
             </Typography>
             {
                 data.status === 'finished' || data.status === 'waiting' || data.status === 'cancelled' ?
-                    ('L\'offre n\'est malheuresement plus disponible, toutefois en cas de problème nos opérateurs sont à l\'écoute.') :
+                    (data.type !== 'tombola' ? 'L\'offre n\'est malheuresement plus disponible, toutefois en cas de problème nos opérateurs sont à l\'écoute.' : (
+                        <Box dangerouslySetInnerHTML={{__html: data.complement}}/>
+                    )) :
                     (<Box
                         className={"d-flex flex-wrap justify-content-evenly align-content-center user-select-none mt-2"}>
                         <Box className={"border p-3 rounded bg-success"} sx={{color: theme.palette.dark.opacity75}}>
