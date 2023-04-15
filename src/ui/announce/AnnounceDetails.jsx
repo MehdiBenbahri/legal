@@ -19,7 +19,7 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
     useEffect(() => {
         let shouldReset = false;
         images.map(el => {
-            if (!shouldReset){
+            if (!shouldReset) {
                 shouldReset = el.announce_id !== data.id
             }
         })
@@ -37,7 +37,7 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
     }, [data]);
 
     return (
-        <Box className={className} sx={{overflowY: fullPage ? 'auto' : "scroll", height: fullPage ? 'auto' : "80vh"}}>
+        <Box className={className} sx={{overflowY: fullPage ? 'auto' : "scroll", height: "auto"}}>
             <Box className={"d-flex flex-wrap justify-content-between align-content-center position-relative"}>
                 <Box className={"d-flex flex-column justify-content-between align-content-center w-100"}>
                     <Box className={"d-flex justify-content-start align-items-center"}>
@@ -45,19 +45,49 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                                 size={"small"}
                                 variant={"contained"}
                                 onClick={() => handle()}
-                                className={"rounded-pill text-dark fw-bold me-2"}>
-                            Fermer <i className="fa-solid fa-xmark mx-2"></i>
+                                sx={{color: theme.palette.light.opacity75}}
+                                className={"rounded-pill fw-bold me-2"}>
+                            Fermer <i className="fa-solid fa-xmark ms-2"></i>
                         </Button>
                         <Button color={"info"}
                                 size={"small"}
                                 variant={"contained"}
                                 onClick={() => navigator.clipboard.writeText(window.location.origin + "/announce?id=" + data.id)}
+                                sx={{color: theme.palette.light.opacity75}}
                                 className={"rounded-pill fw-bold ms-2"}>
-                            Copier Lien <i className="fa-solid fa-link mx-2"></i>
+                            Copier Lien <i className="fa-solid fa-link ms-2"></i>
+                        </Button>
+                        <Button color={"primary"}
+                                size={"small"}
+                                variant={"contained"}
+                                href={'#contact-' + data.id}
+                                sx={{color: theme.palette.light.opacity75}}
+                                className={"rounded-pill fw-bold ms-2"}>
+                            Contact <i className="fa-solid fa-phone ms-2"></i>
                         </Button>
                         <Box className={"mx-2"}>
                             <AnnounceStatus data={data}/>
                         </Box>
+                        {
+                            data.is_company ?
+                                (
+                                    <Box className={"d-flex justify-content-between align-content-center align-items-center"}>
+                                        <Typography className={"me-2 text-muted fw-light fst-italic"}>
+                                            Annonce sponsorisé par {data.author_firstname} {data.author_lastname}
+                                        </Typography>
+                                        <motion.img
+                                            initial={{opacity: 0}}
+                                            animate={{opacity: 1}}
+                                            exit={{opacity: 0}}
+                                            transition={{duration: 0.25}}
+                                            width={"30rem"}
+                                            draggable={false}
+                                            src={import.meta.env.VITE_API_BASE + '/assets/' + data.author_identity_card + "?" + (new URLSearchParams(imageOption))}
+                                            className={"object-fit-cover rounded-2 user-select-none"}
+                                            alt={data.title + " image #" + data.id}/>
+                                    </Box>
+                                ) : ('')
+                        }
                     </Box>
                     <Typography className={"text-muted fw-bold mt-2"} fontSize={".75rem"}>
 
@@ -122,7 +152,8 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                     }
                 </ImageList>
                 {
-                    selectedImg.announce_image_id ? (<ImageModal open={openImgModal} data={selectedImg} handle={() => setOpenImgModal(false)}></ImageModal>) : ('')
+                    selectedImg.announce_image_id ? (<ImageModal open={openImgModal} data={selectedImg}
+                                                                 handle={() => setOpenImgModal(false)}></ImageModal>) : ('')
                 }
             </Box>
             <Collapse collapsedSize={150}
@@ -139,50 +170,58 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                     className="fa-solid fa-ellipsis px-2 m-2"></i>
                 </Button>
             </Box>
-            <Typography className={"text-dark fw-bold text-uppercase "} fontSize={"1.5rem"}>
-                Information propriétaire
-            </Typography>
+            {
+                !data.is_company ? (
+                    <Typography className={"text-dark fw-bold text-uppercase "} fontSize={"1.5rem"}>
+                        Information propriétaire
+                    </Typography>
+                ) : ('')
+            }
+
             <Box className={"d-flex justify-content-between align-items-center align-content-center"}>
                 {
                     data.is_company ?
                         (
-                            ''
+                            <Typography dangerouslySetInnerHTML={{__html: data.complement}}>
+                            </Typography>
                         ) :
                         (
-                            <Box
-                                className={"d-flex flex-column justify-content-evenly align-items-center align-content-center w-50"}>
-                                <TextField disabled label={"Prénom"} className={"bg-light-blur my-1"}
-                                           value={data.author_firstname}/>
-                                <TextField disabled label={"Nom"} className={"bg-light-blur my-1"}
-                                           value={data.author_lastname}/>
-                            </Box>
+                            <>
+                                <Box
+                                    className={"d-flex flex-column justify-content-evenly align-items-center align-content-center w-50"}>
+                                    <TextField disabled label={"Prénom"} className={"bg-light-blur my-1"}
+                                               value={data.author_firstname}/>
+                                    <TextField disabled label={"Nom"} className={"bg-light-blur my-1"}
+                                               value={data.author_lastname}/>
+                                </Box>
+                                <Box className={!data.is_company ? "w-50" : 'w-100'}>
+                                    {
+                                        data.author_identity_card ?
+                                            (
+                                                <motion.img
+                                                    initial={{opacity: 0}}
+                                                    animate={{opacity: 1}}
+                                                    exit={{opacity: 0}}
+                                                    transition={{duration: 0.25}}
+                                                    width={"100%"}
+                                                    draggable={false}
+                                                    src={import.meta.env.VITE_API_BASE + '/assets/' + data.author_identity_card + "?" + (new URLSearchParams(imageOption))}
+                                                    className={"object-fit-cover rounded-2 user-select-none"}
+                                                    alt={data.title + " image #" + data.id}/>
+                                            ) :
+                                            (<Skeleton variant={"rectangular"}
+                                                       width={"100%"}
+                                                       className={"p-2 text-muted d-flex justify-content-center align-items-center align-content-center text-center"}
+                                                       height={225}>
+                                                Aucun document d'identité disponible pour cette annonce ! <br/>
+                                                Attention aux arnaques !
+                                            </Skeleton>)
+                                    }
+
+                                </Box>
+                            </>
                         )
                 }
-                <Box className={!data.is_company ? "w-50" : 'w-100'}>
-                    {
-                        data.author_identity_card ?
-                            (
-                                <motion.img
-                                    initial={{opacity: 0}}
-                                    animate={{opacity: 1}}
-                                    exit={{opacity: 0}}
-                                    transition={{duration: 0.25}}
-                                    width={"100%"}
-                                    draggable={false}
-                                    src={import.meta.env.VITE_API_BASE + '/assets/' + data.author_identity_card + "?" + (new URLSearchParams(imageOption))}
-                                    className={"object-fit-cover rounded-2 user-select-none"}
-                                    alt={data.title + " image #" + data.id}/>
-                            ) :
-                            (<Skeleton variant={"rectangular"}
-                                       width={"100%"}
-                                       className={"p-2 text-muted d-flex justify-content-center align-items-center align-content-center text-center"}
-                                       height={225}>
-                                Aucun document d'identité disponible pour cette annonce ! <br/>
-                                Attention aux arnaques !
-                            </Skeleton>)
-                    }
-
-                </Box>
             </Box>
             <Typography className={"text-dark fw-bold text-uppercase "} fontSize={"1.5rem"}>
                 {!data.is_company ? 'Contact' : 'Information complémentaire'}
@@ -193,6 +232,7 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                         <Box dangerouslySetInnerHTML={{__html: data.complement}}/>
                     )) :
                     (<Box
+                        id={'contact-' + data.id}
                         className={"d-flex flex-wrap justify-content-evenly align-content-center user-select-none mt-2"}>
                         <Box className={"border p-3 rounded bg-success"} sx={{color: theme.palette.dark.opacity75}}>
                             <Typography className={"fw-bolder text-uppercase"}>

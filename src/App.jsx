@@ -5,6 +5,8 @@ import Home from "./pages/home/Home.jsx";
 import {AnimatePresence} from "framer-motion"
 import ViewAnnounce from "./pages/announce/ViewAnnounce.jsx";
 import Recruitment from "./pages/recruitment/Recruitment.jsx";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function App() {
     const location = useLocation();

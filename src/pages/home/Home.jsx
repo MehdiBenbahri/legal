@@ -222,7 +222,7 @@ function Home() {
                 animate={{width: "", display: sidePanel ? "block" : "none", opacity: sidePanel ? 1 : 0}}
                 transition={{duration: 0.15}}
                 exit={{opacity: 0}}
-                className={`${sidePanel ? 'side-panel position-fixed' : 'w-100'} bg-light-blur rounded py-3`}
+                className={`${sidePanel ? 'side-panel ' : 'w-100'} bg-light-blur rounded py-3`}
             >
                 {
                     sidePanelData.id ? <AnnounceDetails data={sidePanelData} handle={() => setSidePanel(false)}/> : ('')
