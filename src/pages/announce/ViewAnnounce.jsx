@@ -26,7 +26,7 @@ function ViewAnnounce(){
         <Box className={"d-flex justify-content-evenly align-content-center align-items-center"}>
             {
                 data.id ?
-                    (<AnnounceDetails fullPage={true} className={"bg-light-blur p-5 rounded-3 col-10"} data={data} />) :
+                    (<AnnounceDetails fullPage={true} className={"bg-light-blur p-5 rounded-3 col-10 mt-3"} data={data} />) :
                     ('')
             }
 
