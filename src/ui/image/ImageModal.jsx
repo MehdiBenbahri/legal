@@ -24,7 +24,7 @@ function ImageModal({open, data, handle}) {
                                     exit={{opacity: 0}}
                                     transition={{duration: 0.25}}
                                     draggable={false}
-                                    style={{maxWidth: "50%"}}
+                                    style={{maxWidth: "80vh"}}
                                     src={import.meta.env.VITE_API_BASE + '/assets/' + data.announce_image_id.image + "?" + (new URLSearchParams(imageOption))}
                                     className={"object-fit-cover user-select-none rounded"}
                                     alt={data.title + " image #" + data.id}/>
