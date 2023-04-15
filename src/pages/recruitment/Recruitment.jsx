@@ -127,42 +127,51 @@ function Recruitment() {
                     </Button>
                 </Box>
             </Box>
-            <Box className={"row justify-content-evenly p-2"}>
-                <Box className={"col-sm-12 col-md-6 col-lg-4"}>
-                    {
-                        recruitment.slice(0, 5).map((data) => {
-                            return (
-                                <RecruitmentItem key={"recruitment-item-" + data.id} data={data}/>
-                            )
-                        })
-                    }
-                </Box>
-                {
-                    recruitment.length > 5 ? (
+            {
+                recruitment.length > 0 ?
+                    (<Box className={"row justify-content-evenly p-2"}>
                         <Box className={"col-sm-12 col-md-6 col-lg-4"}>
                             {
-                                recruitment.slice(5, 10).map((data) => {
+                                recruitment.slice(0, 5).map((data) => {
                                     return (
                                         <RecruitmentItem key={"recruitment-item-" + data.id} data={data}/>
                                     )
                                 })
                             }
                         </Box>
-                    ) : ('')
-                }
-                {
-                    recruitment.length > 10 ? (
-                        <Box className={"col-sm-12 col-md-12 col-lg-4"}>
-                            {
-                                recruitment.slice(10, 15).map((data) => {
-                                    return (
-                                        <RecruitmentItem key={"recruitment-item-" + data.id} data={data}/>
-                                    )
-                                })
-                            }
-                        </Box>) : ('')
-                }
-            </Box>
+                        {
+                            recruitment.length > 5 ? (
+                                <Box className={"col-sm-12 col-md-6 col-lg-4"}>
+                                    {
+                                        recruitment.slice(5, 10).map((data) => {
+                                            return (
+                                                <RecruitmentItem key={"recruitment-item-" + data.id} data={data}/>
+                                            )
+                                        })
+                                    }
+                                </Box>
+                            ) : ('')
+                        }
+                        {
+                            recruitment.length > 10 ? (
+                                <Box className={"col-sm-12 col-md-12 col-lg-4"}>
+                                    {
+                                        recruitment.slice(10, 15).map((data) => {
+                                            return (
+                                                <RecruitmentItem key={"recruitment-item-" + data.id} data={data}/>
+                                            )
+                                        })
+                                    }
+                                </Box>) : ('')
+                        }
+                    </Box>) :
+                    (<Box className={"bg-light-blur p-3 rounded-3 my-3 d-flex justify-content-evenly align-content-center"}>
+                        <Typography>
+                            Aucun résultat ne correspond à vos filtres 😥
+                        </Typography>
+                    </Box>)
+            }
+
         </Box>
     )
 }
