@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import {useEffect, useState} from "react";
 import {getAdvise} from "../../services/Advise.js";
 import {motion} from "framer-motion";
+import moment from "moment";
 
 function Advise() {
 
@@ -35,23 +36,26 @@ function Advise() {
             <Slider {...settings}>
                 {
                     data.map((el) => {
-                        return (
-                            <Button href={(el.id_announce ? '/announce?id=' + el.id_announce : '#')} disableRipple={true} key={"advise-carousel-item" + el.id} className={"rounded-3"}>
-                                <motion.div
-                                    initial={{opacity: 0}}
-                                    animate={{opacity: 1}}
-                                    exit={{opacity: 0}}
-                                    transition={{duration: 0.25}}
-                                    className={"rounded-3"}
-                                    style={{
-                                        background: `url(${import.meta.env.VITE_API_BASE + '/assets/' + el.image + "?" + (new URLSearchParams(imageOption))})`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "contain",
-                                        height: "12rem",
-                                    }}/>
-                            </Button>
-                        )
+                        if (moment().isBetween(moment(el.start).add(-1, 'DAY'),moment(el.end))){
+                            return (
+                                <Button href={(el.id_announce ? '/announce?id=' + el.id_announce : '#')} disableRipple={true} key={"advise-carousel-item" + el.id} className={"rounded-3"}>
+                                    <motion.div
+                                        initial={{opacity: 0}}
+                                        animate={{opacity: 1}}
+                                        exit={{opacity: 0}}
+                                        transition={{duration: 0.25}}
+                                        className={"rounded-3"}
+                                        style={{
+                                            background: `url(${import.meta.env.VITE_API_BASE + '/assets/' + el.image + "?" + (new URLSearchParams(imageOption))})`,
+                                            backgroundRepeat: "no-repeat",
+                                            backgroundPosition: "center",
+                                            backgroundSize: "contain",
+                                            height: "12rem",
+                                        }}/>
+                                </Button>
+                            )
+                        }
+
                     })
                 }
             </Slider>
