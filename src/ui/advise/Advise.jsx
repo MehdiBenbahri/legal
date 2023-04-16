@@ -17,7 +17,6 @@ function Advise() {
                 }
             });
         }
-        console.log(data)
     }, [data])
 
     const settings = {
@@ -37,7 +36,7 @@ function Advise() {
                 {
                     data.map((el) => {
                         return (
-                            <Button href={'/announce?id=' + el.id_announce} disableRipple={true} key={"advise-carousel-item" + el.id} className={"rounded-3"}>
+                            <Button href={(el.id_announce ? '/announce?id=' + el.id_announce : '#')} disableRipple={true} key={"advise-carousel-item" + el.id} className={"rounded-3"}>
                                 <motion.div
                                     initial={{opacity: 0}}
                                     animate={{opacity: 1}}
