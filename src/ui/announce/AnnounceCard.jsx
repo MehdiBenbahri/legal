@@ -1,4 +1,4 @@
-import {Box, Typography} from "@mui/material";
+import {Box, Tooltip, Typography} from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 import {useEffect, useState} from "react";
 import {getAnnounceImage} from "../../services/Announce.js";
@@ -44,13 +44,33 @@ function AnnounceCard({data, index, handleClick}) {
                             exit={{opacity: 0}}
                             transition={{duration: 0.25}}
                             draggable={false}
+                            className={`object-fit-cover rounded-2 user-select-none ${data.status === 'finished' ? 'opacity-75' : ''}`}
                             src={import.meta.env.VITE_API_BASE + '/assets/' + mainImage + "?" + (new URLSearchParams(imageOption))}
-                            className={"object-fit-cover rounded-2 user-select-none"}
                             width={250}
                             height={250}
                             alt={data.title + " image #" + data.id}/>
                     )
             }
+            {
+                data.is_company ? (
+                        <Tooltip title={"Annonce sponsorisé par " + data.author_firstname} className={"top-0 end-0 position-absolute"}>
+                            <motion.img
+                                initial={{opacity: 0}}
+                                animate={{opacity: 1}}
+                                exit={{opacity: 0}}
+                                transition={{duration: 0.25}}
+                                width={"30rem"}
+                                height={"30rem"}
+                                draggable={false}
+                                src={import.meta.env.VITE_API_BASE + '/assets/' + data.author_identity_card + "?" + (new URLSearchParams(imageOption))}
+                                className={"object-fit-cover user-select-none bg-light rounded-circle m-2 p-1"}
+                                alt={data.title + " image #" + data.id}/>
+                        </Tooltip>
+                    )
+                    :
+                    ('')
+            }
+
             <Box sx={{maxWidth: 250}}>
                 <Typography className={"text-dark text-truncate  fw-bolder mt-2"}>
                     {data.title ? data.title : "----"}
