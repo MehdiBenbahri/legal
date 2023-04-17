@@ -12,6 +12,7 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
     const imageOption = {quality: 75, width: "400", height: "400", withoutEnlargement: false, format: "webp"};
     const [images, setImages] = useState([]);
     const [selectedImg, setSelectedImg] = useState([]);
+    const [selectedIndex, setSelectedIndex] = useState('');
     const [openImgModal, setOpenImgModal] = useState(false);
     const [openDescription, setOpenDescription] = useState(false);
     const [imgLoading, setImgLoading] = useState(false);
@@ -40,14 +41,14 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
         <Box className={className} sx={{overflowY: fullPage ? 'auto' : "scroll", height: "auto"}}>
             <Box className={"d-flex flex-wrap justify-content-between align-content-center position-relative"}>
                 <Box className={"d-flex flex-column justify-content-between align-content-center w-100"}>
-                    <Box className={"d-flex justify-content-start align-items-center"}>
+                    <Box className={"d-flex flex-wrap justify-content-start align-items-center"}>
                         <Button color={"warning"}
                                 size={"small"}
                                 variant={"contained"}
                                 onClick={() => handle()}
                                 sx={{color: theme.palette.light.opacity75}}
                                 className={"rounded-pill fw-bold me-2"}>
-                            Fermer <i className="fa-solid fa-xmark ms-2"></i>
+                            <span className={"d-none d-md-block"}>Fermer</span> <i className="fa-solid fa-xmark ms-0 ms-md-2"></i>
                         </Button>
                         <Button color={"info"}
                                 size={"small"}
@@ -55,7 +56,7 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                                 onClick={() => navigator.clipboard.writeText(window.location.origin + "/announce?id=" + data.id)}
                                 sx={{color: theme.palette.light.opacity75}}
                                 className={"rounded-pill fw-bold ms-2"}>
-                            Copier Lien <i className="fa-solid fa-link ms-2"></i>
+                            <span className={"d-none d-md-block"}>Copier Lien</span> <i className="fa-solid fa-link ms-0 ms-md-2"></i>
                         </Button>
                         <Button color={"primary"}
                                 size={"small"}
@@ -63,7 +64,7 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                                 href={'#contact-' + data.id}
                                 sx={{color: theme.palette.light.opacity75}}
                                 className={"rounded-pill fw-bold ms-2"}>
-                            Contact <i className="fa-solid fa-phone ms-2"></i>
+                            <span className={"d-none d-md-block"}>Contact</span> <i className="fa-solid fa-phone ms-0 ms-md-2"></i>
                         </Button>
                         <Box className={"mx-2"}>
                             <AnnounceStatus data={data}/>
@@ -71,7 +72,8 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                         {
                             data.is_company ?
                                 (
-                                    <Box className={"d-flex justify-content-between align-content-center align-items-center"}>
+                                    <Box
+                                        className={"d-flex justify-content-between align-content-center align-items-center"}>
                                         <Typography className={"me-2 text-muted fw-light fst-italic"}>
                                             Annonce sponsorisé par {data.author_firstname} {data.author_lastname}
                                         </Typography>
@@ -80,10 +82,10 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                                             animate={{opacity: 1}}
                                             exit={{opacity: 0}}
                                             transition={{duration: 0.25}}
-                                            width={"30rem"}
+                                            width={"35rem"}
                                             draggable={false}
                                             src={import.meta.env.VITE_API_BASE + '/assets/' + data.author_identity_card + "?" + (new URLSearchParams(imageOption))}
-                                            className={"object-fit-cover rounded-2 user-select-none"}
+                                            className={"object-fit-cover rounded-circle user-select-none"}
                                             alt={data.title + " image #" + data.id}/>
                                     </Box>
                                 ) : ('')
@@ -131,6 +133,7 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                         images.map((el, index) => {
                             return (
                                 <ImageListItem variant="woven" onClick={() => {
+                                    setSelectedIndex(index);
                                     setSelectedImg(el)
                                     setOpenImgModal(true)
                                 }}
@@ -152,7 +155,31 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                     }
                 </ImageList>
                 {
-                    selectedImg.announce_image_id ? (<ImageModal open={openImgModal} data={selectedImg}
+                    selectedImg.announce_image_id ? (<ImageModal open={openImgModal}
+                                                                 data={selectedImg}
+                                                                 handleChangeImg={(e) => {
+                                                                     if (e > 0){
+                                                                         if (images.length > selectedIndex + e){
+                                                                             setSelectedIndex(selectedIndex + e);
+                                                                             setSelectedImg(images[selectedIndex + e]);
+                                                                         }
+                                                                         else{
+                                                                             setSelectedIndex(0);
+                                                                             setSelectedImg(images[0]);
+                                                                         }
+                                                                     }
+                                                                     else{
+                                                                         if (selectedIndex > 0){
+                                                                             setSelectedIndex(selectedIndex + e);
+                                                                             setSelectedImg(images[selectedIndex + e]);
+                                                                         }
+                                                                         else{
+                                                                             setSelectedIndex(images.length - 1);
+                                                                             setSelectedImg(images[images.length - 1]);
+                                                                         }
+                                                                     }
+                                                                 }
+                                                                 }
                                                                  handle={() => setOpenImgModal(false)}></ImageModal>) : ('')
                 }
             </Box>
@@ -236,11 +263,13 @@ function AnnounceDetails({data, handle, fullPage = false, className}) {
                         className={"d-flex flex-wrap justify-content-evenly align-content-center user-select-none mt-2"}>
                         <Box className={"border p-3 rounded bg-success"} sx={{color: theme.palette.dark.opacity75}}>
                             <Typography className={"fw-bolder text-uppercase"}>
-                                Pour plus d'informations envoyez un SMS
+                                {
+                                    data.author_phone !== 'xxx-xxxxx' ? 'Pour plus d\'informations envoyez un SMS' : 'Pour plus d\'informations, rendez vous au'
+                                }
                             </Typography>
                             <Box className={"text-center fw-bolder font-monospace user-select-all"}>
                                 {
-                                    data.author_phone
+                                    data.author_phone !== 'xxx-xxxxx' ? data.author_phone : data.author_firstname + ' ' + data.author_lastname
                                 }
                             </Box>
                         </Box>
